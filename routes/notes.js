@@ -20,18 +20,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.patch('/:id', async (req, res) => {
-  try {
-    const note = await Note.findById(req.params.id);
-    note.name = req.body.name;
-    note.description = req.body.description;
-    const savedNote = note.save();
-    res.json(savedNote);
-  } catch {
-    res.send('Error');
-  }
-});
-
 router.post('/', async (req, res) => {
   try {
     const note = new Note({
@@ -45,11 +33,29 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.patch('/:id', async (req, res) => {
+  try {
+    if (!(await Note.exists({ _id: req.params.id }))) {
+      res.send('Note not found');
+    } else {
+      const note = await Note.findById(req.params.id);
+      note.name = req.body.name;
+      note.description = req.body.description;
+      res.json(await note.save());
+    }
+  } catch {
+    res.send('Error');
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
-    const noteToBeDeleted = await Note.findById(req.params.id);
-    await Note.deleteOne(noteToBeDeleted);
-    res.send('Note deleted successfully');
+    if (!(await Note.exists({ _id: req.params.id }))) {
+      res.send('Note not found');
+    } else {
+      await Note.deleteOne({ _id: req.params.id });
+      res.send('Note deleted successfully');
+    }
   } catch {
     res.send('Error');
   }
