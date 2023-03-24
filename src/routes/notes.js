@@ -1,8 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const Note = require('../models/note.js');
+const {
+  noteValidation,
+  validateRequestSchema,
+} = require('../middlewares/validation/note.js');
+const { check, validationResult } = require('express-validator');
 
-router.get('/', async (req, res) => {
+router.get('/notes/', async (req, res) => {
   try {
     const notes = await Note.find();
     res.json(notes);
@@ -11,7 +16,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/notes/:id', async (req, res) => {
   try {
     const note = await Note.findById(req.params.id);
     res.json(note);
@@ -20,20 +25,25 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
-  try {
-    const note = new Note({
-      name: req.body.name,
-      description: req.body.description,
-    });
-    const savedNote = await note.save();
-    res.send(savedNote);
-  } catch {
-    res.send('Error');
+router.post(
+  '/notes',
+  noteValidation,
+  validateRequestSchema,
+  async (req, res) => {
+    try {
+      const note = new Note({
+        name: req.body.name,
+        description: req.body.description,
+      });
+      const savedNote = await note.save();
+      res.send(savedNote);
+    } catch {
+      res.send('Error');
+    }
   }
-});
+);
 
-router.patch('/:id', async (req, res) => {
+router.patch('/notes/:id', async (req, res) => {
   try {
     if (!(await Note.exists({ _id: req.params.id }))) {
       res.send('Note not found');
@@ -48,7 +58,7 @@ router.patch('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/notes/:id', async (req, res) => {
   try {
     if (!(await Note.exists({ _id: req.params.id }))) {
       res.send('Note not found');
