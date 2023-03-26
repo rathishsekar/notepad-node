@@ -18,7 +18,7 @@ exports.createNote = async (noteToBeCreated) => {
 
 exports.updateNote = async (id, noteToBeUpdated) => {
   if (!(await Note.exists({ _id: id }))) {
-    res.send('Note not found');
+    res.status(404).send('Note not found');
   } else {
     const note = await Note.findById(id);
     note.name = noteToBeUpdated.name;
@@ -29,7 +29,7 @@ exports.updateNote = async (id, noteToBeUpdated) => {
 
 exports.deleteNote = async (id) => {
   if (!(await Note.exists({ _id: id }))) {
-    res.send('Note not found');
+    res.status(404).send('Note not found');
   } else {
     await Note.deleteOne({ _id: id });
   }

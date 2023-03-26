@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Swagger Notestore - OpenAPI 3.0
+  version: 1.0.11
+
+paths:
+  /notes:
+    post:
+      tags:
+        - notes
+      summary: Add a new note to the notepad
+      requestBody:
+        description: Create a new note in the notepad
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Note'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Note'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Error
+    get:
+      tags:
+        - notes
+      summary: Get list of notes from the notepad
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notes'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Notes'
+        '400':
+          description: Error      
+  /notes/{noteId}:
+    get:
+      tags:
+        - notes
+      summary: Get a note to the notepad
+      parameters:
+        - in: path
+          name: noteId
+          schema:
+            type: string
+            format: ObjectId
+          required: true
+          description: Object ID of the note to get
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Error
+    patch:
+      tags:
+        - notes
+      summary: Update a note in notepad
+      parameters:
+        - in: path
+          name: noteId
+          schema:
+            type: string
+            format: ObjectId
+          required: true
+          description: Object ID of the note to get
+      requestBody:
+        description: Update a note in notepad
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Note'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Note'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Note'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Error
+    delete:
+      tags:
+        - notes
+      summary: Delete a note to the notepad
+      parameters:
+        - in: path
+          name: noteId
+          schema:
+            type: string
+            format: ObjectId
+          required: true
+          description: Object ID of the note to delete
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "Note deleted successfully"         
+            application/xml:
+              schema:
+                type: string
+                example: "Note deleted successfully"
+        '400':
+          description: Error
+components:
+  schemas:
+    Note:
+      required:
+        - name
+        - description
+      type: object
+      properties:
+        _id: 
+          type: object
+          format: ObjectId
+          example: 641928c9022b31c3cd1d5acf
+        name:
+          type: string
+          example: TestNote
+        description:
+          type: string
+          example: TestNote
+        __v:
+          type: integer
+          example: 0
+      xml:
+        name: Note
+    Notes:
+      type: object
+      properties:
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Note'

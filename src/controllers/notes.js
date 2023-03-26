@@ -5,7 +5,7 @@ exports.getNotes = async (req, res) => {
     const result = await notesService.getAllNotes();
     res.json(result);
   } catch {
-    res.send('Error');
+    res.status(400).send('Error');
   }
 };
 
@@ -14,7 +14,7 @@ exports.getNote = async (req, res) => {
     const note = await notesService.getNote(req.params.id);
     res.json(note);
   } catch {
-    res.send('Error');
+    res.status(400).send('Error');
   }
 };
 
@@ -23,7 +23,7 @@ exports.createNote = async (req, res) => {
     const createdNote = await notesService.createNote(req.body);
     res.send(createdNote);
   } catch {
-    res.send('Error');
+    res.status(400).send('Error');
   }
 };
 
@@ -32,7 +32,7 @@ exports.updateNote = async (req, res) => {
     const updatedNote = await notesService.updateNote(req.params.id, req.body);
     res.send(updatedNote);
   } catch {
-    res.send('Error');
+    res.status(400).send('Error');
   }
 };
 
@@ -41,6 +41,6 @@ exports.deleteNote = async (req, res) => {
     await notesService.deleteNote(req.params.id);
     res.send('Note deleted successfully');
   } catch {
-    res.send('Error');
+    res.status(400).send('Error');
   }
 };
