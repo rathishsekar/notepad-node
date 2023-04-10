@@ -34,3 +34,5 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerspec));
 app.listen('9000', () => {
   console.log('server started');
 });
+
+module.exports = app;
