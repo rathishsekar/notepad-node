@@ -5,7 +5,6 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
-const app = express();
 const url = process.env['MONGO_DB_URI'] + '/' + process.env['DB_NAME'];
 mongoose.connect(url, { useNewUrlParser: true });
 
@@ -13,6 +12,8 @@ const con = mongoose.connection;
 con.on('open', () => {
   console.log('connected to mongodb');
 });
+
+const app = express();
 
 const options = {
   definition: {
@@ -30,9 +31,5 @@ app.use('/', route);
 const swaggerspec = swaggerJsDoc(options);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerspec));
-
-app.listen('9000', () => {
-  console.log('server started');
-});
 
 module.exports = app;

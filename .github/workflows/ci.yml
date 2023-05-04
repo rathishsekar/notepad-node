@@ -1,4 +1,4 @@
-name: Build notepad
+name: Notepad CI
 on:
   push:
     branches: [ main ]
