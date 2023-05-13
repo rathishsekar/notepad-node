@@ -10,4 +10,4 @@ COPY . ./
 
 EXPOSE 9000
 
-RUN "node" "src/server.js"
+CMD "node" "src/server.js"
