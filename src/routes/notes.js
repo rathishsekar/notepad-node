@@ -10,6 +10,8 @@ router.get('/notes/', controller.getNotes);
 
 router.get('/notes/:id', controller.getNote);
 
+router.get('/notes/search/:name', controller.searchNote);
+
 router.post(
   '/notes',
   noteValidation,

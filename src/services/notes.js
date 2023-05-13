@@ -8,6 +8,16 @@ exports.getNote = async (id) => {
   return await Note.findById(id);
 };
 
+exports.searchNote = async (name) => {
+  return await Note.find({
+    $or: [
+      {
+        name: { $regex: name },
+      },
+    ],
+  });
+};
+
 exports.createNote = async (noteToBeCreated) => {
   const note = new Note({
     name: noteToBeCreated.name,

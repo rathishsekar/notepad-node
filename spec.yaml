@@ -75,6 +75,31 @@ paths:
                 $ref: '#/components/schemas/Note'
         '400':
           description: Error
+  /notes/search/{name}:
+    get:
+      tags:
+        - notes
+      summary: Get a note to the notepad
+      parameters:
+        - in: path
+          name: name
+          schema:
+            type: string
+            format: ObjectId
+          required: true
+          description: Object ID of the note to get
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Error
     patch:
       tags:
         - notes

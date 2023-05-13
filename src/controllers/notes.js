@@ -18,6 +18,15 @@ exports.getNote = async (req, res) => {
   }
 };
 
+exports.searchNote = async (req, res) => {
+  try {
+    const note = await notesService.searchNote(req.params.name);
+    res.json(note);
+  } catch {
+    res.status(400).send('Error');
+  }
+};
+
 exports.createNote = async (req, res) => {
   try {
     const createdNote = await notesService.createNote(req.body);
