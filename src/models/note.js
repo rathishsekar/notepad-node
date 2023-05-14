@@ -9,6 +9,10 @@ const noteSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  tags: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'tag',
+  },
 });
 
 module.exports = mongoose.model('note', noteSchema);
